@@ -229,6 +229,37 @@ text-align: left;
 border-color:rgb(255, 63, 63) ;
 }
 
+.footer{
+    margin-top: 15px;
+    padding: 15px;
+    background-color: black;
+    color: white;
+    font-size: 12;
+    height: 30vh;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: space-evenly;
+}
+
+.footer .name {
+    font-size: 20px;
+}
+
+.footer .address .up{
+    margin-top: 8px;
+    
+}
+
+.footer .contact{
+    margin-top: 8px;
+}
+.footer .contact a{
+    text-decoration: none;
+    color: white;
+    padding-top: 8px;
+}
+
 @media screen and (max-width: 640px) {
     .header{
         flex-direction: column;
