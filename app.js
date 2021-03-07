@@ -1,4 +1,4 @@
-var today = new Date();
+let today = new Date();
 let logs = {
     b1: 0,
     b2: 0,
@@ -13,75 +13,6 @@ let logs = {
     b11: 0,
     b12: 0,
 };
-var dd = String(today.getDate()).padStart(2, "0");
-var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-var yyyy = today.getFullYear();
-let maxdd = parseInt(dd) + 4;
-let max = yyyy + "-" + mm + "-" + String(maxdd).padStart(2, "0");
-console.log(dd);
-console.log(maxdd);
-today = yyyy + "-" + mm + "-" + dd;
-let datepicker = document.getElementById("datepicker");
-datepicker.value = today;
-datepicker.min = today;
-datepicker.max = max;
-
-init();
-
-datepicker.addEventListener("change", submitDate);
-
-function scrolldiv() {
-    var elem = document.querySelector(".reservation");
-    elem.scrollIntoView();
-}
-
-function submitDate() {
-    let item = JSON.parse(localStorage.getItem(datepicker.value));
-    if (item == null) {
-        localStorage.setItem(String(datepicker.value), JSON.stringify(logs));
-    } else {
-        for (var i in item) {
-            if (item[i] != "0") {
-                document.getElementById(String(i)).disabled = true;
-            } else {
-                document.getElementById(String(i)).disabled = false;
-            }
-        }
-        
-    }
-    localStorage.setItem("date", datepicker.value);
-}
-
-function init(){
-    if (localStorage.getItem("time") == null) {
-        localStorage.setItem("time", "0");
-    }
-    submitDate();
-}
-
-
-
-function reset(){
-    localStorage.clear();
-    init();
-}
-
-function addGuest() {
-    let guestNumber = document.getElementById("display");
-    let currentNumberOfGuest = guestNumber.innerText;
-    if (currentNumberOfGuest < 8) {
-        guestNumber.innerText = String(parseInt(currentNumberOfGuest) + 1);
-    }
-}
-
-function removeGuest() {
-    let guestNumber = document.getElementById("display");
-    let currentNumberOfGuest = guestNumber.innerText;
-    if (currentNumberOfGuest > 1) {
-        guestNumber.innerText = parseInt(currentNumberOfGuest) - 1;
-    }
-}
-
 let btn1 = document.getElementById("b1");
 let btn2 = document.getElementById("b2");
 let btn3 = document.getElementById("b3");
@@ -95,6 +26,20 @@ let btn10 = document.getElementById("b10");
 let btn11 = document.getElementById("b11");
 let btn12 = document.getElementById("b12");
 
+let dd = String(today.getDate()).padStart(2, "0");
+let mm = String(today.getMonth() + 1).padStart(2, "0");
+let yyyy = today.getFullYear();
+let maxdd = parseInt(dd) + 4;
+let max = yyyy + "-" + mm + "-" + String(maxdd).padStart(2, "0");
+console.log(dd);
+console.log(maxdd);
+today = yyyy + "-" + mm + "-" + dd;
+let datepicker = document.getElementById("datepicker");
+datepicker.value = today;
+datepicker.min = today;
+datepicker.max = max;
+
+datepicker.addEventListener("change", submitDate);
 btn1.addEventListener("click", function () {
     timeBtn(btn1);
 });
@@ -131,6 +76,58 @@ btn11.addEventListener("click", function () {
 btn12.addEventListener("click", function () {
     timeBtn(btn12);
 });
+
+init();
+
+function scrolldiv() {
+    let elem = document.querySelector(".reservation");
+    elem.scrollIntoView();
+}
+
+function submitDate() {
+    let item = JSON.parse(localStorage.getItem(datepicker.value));
+    if (item == null) {
+        localStorage.setItem(String(datepicker.value), JSON.stringify(logs));
+    } else {
+        for (var i in item) {
+            if (item[i] != "0") {
+                document.getElementById(String(i)).disabled = true;
+            } else {
+                document.getElementById(String(i)).disabled = false;
+            }
+        }
+        
+    }
+    localStorage.setItem("date", datepicker.value);
+}
+
+function init(){
+    if (localStorage.getItem("time") == null) {
+        localStorage.setItem("time", "0");
+    }
+    submitDate();
+}
+
+function reset(){
+    localStorage.clear();
+    init();
+}
+
+function addGuest() {
+    let guestNumber = document.getElementById("display");
+    let currentNumberOfGuest = guestNumber.innerText;
+    if (currentNumberOfGuest < 8) {
+        guestNumber.innerText = String(parseInt(currentNumberOfGuest) + 1);
+    }
+}
+
+function removeGuest() {
+    let guestNumber = document.getElementById("display");
+    let currentNumberOfGuest = guestNumber.innerText;
+    if (currentNumberOfGuest > 1) {
+        guestNumber.innerText = parseInt(currentNumberOfGuest) - 1;
+    }
+}
 
 function timeBtn(btn) {
     let time = btn.innerText;
@@ -191,17 +188,15 @@ function submit() {
             default:
                 id = "0";
         }
-        let con = confirm(`Confirm your Resrvation for ${selectedDate} Time ${selectedTime} number of guest ${currentNumberOfGuest}`);
+        let con = confirm(`Confirm your Resrvation for ${selectedDate} Time ${selectedTime} number of guest ${currentNumberOfGuest}. Instruction ${instruction}`);
         if (con) {
             let obj = JSON.parse(localStorage.getItem(selectedDate));
             obj[id] = 1;
             localStorage.setItem(String(selectedDate), JSON.stringify(obj));
             document.getElementById(String(id)).disabled = true;
-
-            
             submitDate()
-        }
 
+        }
         localStorage.setItem("time", "0");
     }
 }
